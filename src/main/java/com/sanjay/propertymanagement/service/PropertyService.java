@@ -10,6 +10,8 @@ public interface PropertyService {
 
     List <PropertyDto> getAllProperties();
 
+    PropertyDto getPropertyById (Long propertyId) throws Exception;
+
     PropertyDto updateProperty (PropertyDto propertyDto, Long propertyId);
 
     PropertyDto updatePropertyDescription (PropertyDto propertyDto, Long propertyId);

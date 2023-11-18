@@ -46,6 +46,22 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
+    public PropertyDto getPropertyById(Long propertyId) throws Exception {
+        Optional<PropertyEntity> optionalPropertyEntity = propertyRepository.findById(propertyId);
+
+        PropertyDto dto = null;
+
+        if(optionalPropertyEntity.isPresent()) {
+            PropertyEntity propertyEntity = optionalPropertyEntity.get();
+            dto = propertyConverter.convertEntityToDto(propertyEntity);
+        } else {
+            throw new Exception("Property Id : " + propertyId + " not found");
+        }
+
+        return dto;
+    }
+
+    @Override
     public PropertyDto updateProperty(PropertyDto propertyDto, Long propertyId) {
 
         Optional<PropertyEntity> optionalPropertyEntity = propertyRepository.findById(propertyId);

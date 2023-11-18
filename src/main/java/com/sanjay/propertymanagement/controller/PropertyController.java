@@ -51,4 +51,11 @@ public class PropertyController {
         return responseEntity;
     }
 
+    @GetMapping("/properties/{id}")
+    public ResponseEntity<PropertyDto> getPropertyById (@PathVariable Long id) throws Exception{
+        PropertyDto propertyDto = propertyService.getPropertyById(id);
+        ResponseEntity<PropertyDto> responseEntity = new ResponseEntity<>(propertyDto, HttpStatus.OK);
+        return responseEntity;
+    }
+
 }
