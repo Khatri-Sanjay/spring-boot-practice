@@ -84,7 +84,13 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public void deleteProperty(Long id) {
-        propertyRepository.deleteById(id);
+    public void deleteProperty(Long id) throws Exception {
+        Optional<PropertyEntity> optionalPropertyEntity = propertyRepository.findById(id);
+
+        if (optionalPropertyEntity.isPresent()) {
+            propertyRepository.deleteById(id);
+        } else {
+            throw new Exception("User having id" + " " + id + " " + "is not available");
+        }
     }
 }

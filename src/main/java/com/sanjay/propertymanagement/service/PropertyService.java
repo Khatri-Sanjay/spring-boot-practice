@@ -14,7 +14,7 @@ public interface PropertyService {
 
     PropertyDto updatePropertyDescription (PropertyDto propertyDto, Long propertyId);
 
-    void deleteProperty (Long id);
+    void deleteProperty (Long id) throws Exception;
 
 
 }
