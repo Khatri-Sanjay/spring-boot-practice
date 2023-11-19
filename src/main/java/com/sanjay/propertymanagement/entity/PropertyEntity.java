@@ -1,9 +1,8 @@
 package com.sanjay.propertymanagement.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
 @Entity
 @Table(name = "Property")
@@ -20,13 +19,26 @@ public class PropertyEntity {
     private Long id;
 
     @Column(name = "Property_title", nullable = false)
+    @Pattern(regexp = "^[^\\\\/:*?\"<>|]+$", message = "Not valid")
     private String title;
+
     private String description;
+
+    @NotBlank
     private String ownerName;
 
     @Column(name = "owner_email")
+    @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
+    @NotEmpty
     private String ownerEmail;
+
+    @Pattern(regexp = "(\\+977)?[9][6-9]\\d{8}", message = "Invalid Owner Phone Number")
+    private String ownerPhoneNumber;
+
+    @NonNull
     private Double price;
+
+    @NotBlank
     private String address;
 
 }

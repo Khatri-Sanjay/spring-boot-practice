@@ -12,6 +12,7 @@ public class PropertyDto {
     private String description;
     private String ownerName;
     private String ownerEmail;
+    private String ownerPhoneNumber;
     private Double price;
     private String address;
 

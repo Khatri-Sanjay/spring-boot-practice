@@ -3,6 +3,7 @@ package com.sanjay.propertymanagement.service.impl;
 import com.sanjay.propertymanagement.converter.PropertyConverter;
 import com.sanjay.propertymanagement.dto.PropertyDto;
 import com.sanjay.propertymanagement.entity.PropertyEntity;
+import com.sanjay.propertymanagement.exception.PropertiesNotFoundException;
 import com.sanjay.propertymanagement.reprository.PropertyRepository;
 import com.sanjay.propertymanagement.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public PropertyDto getPropertyById(Long propertyId) throws Exception {
+    public PropertyDto getPropertyById(Long propertyId) throws PropertiesNotFoundException {
         Optional<PropertyEntity> optionalPropertyEntity = propertyRepository.findById(propertyId);
 
         PropertyDto dto = null;
@@ -55,7 +56,7 @@ public class PropertyServiceImpl implements PropertyService {
             PropertyEntity propertyEntity = optionalPropertyEntity.get();
             dto = propertyConverter.convertEntityToDto(propertyEntity);
         } else {
-            throw new Exception("Property Id : " + propertyId + " not found");
+            throw new PropertiesNotFoundException("Property Id : " + propertyId + " not found");
         }
 
         return dto;
@@ -74,6 +75,7 @@ public class PropertyServiceImpl implements PropertyService {
             propertyEntity.setDescription(propertyDto.getDescription());
             propertyEntity.setOwnerName(propertyDto.getOwnerName());
             propertyEntity.setOwnerEmail(propertyDto.getOwnerEmail());
+            propertyEntity.setOwnerPhoneNumber(propertyDto.getOwnerPhoneNumber());
             propertyEntity.setPrice(propertyDto.getPrice());
             propertyEntity.setAddress(propertyDto.getAddress());
             dto = propertyConverter.convertEntityToDto(propertyEntity);
@@ -100,13 +102,13 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public void deleteProperty(Long id) throws Exception {
+    public void deleteProperty(Long id) throws PropertiesNotFoundException {
         Optional<PropertyEntity> optionalPropertyEntity = propertyRepository.findById(id);
 
         if (optionalPropertyEntity.isPresent()) {
             propertyRepository.deleteById(id);
         } else {
-            throw new Exception("User having id" + " " + id + " " + "is not available");
+            throw new PropertiesNotFoundException("User having id" + " " + id + " " + "is not available");
         }
     }
 }

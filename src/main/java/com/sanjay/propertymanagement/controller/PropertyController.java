@@ -1,23 +1,27 @@
 package com.sanjay.propertymanagement.controller;
 
 import com.sanjay.propertymanagement.dto.PropertyDto;
+import com.sanjay.propertymanagement.exception.PropertiesNotFoundException;
 import com.sanjay.propertymanagement.service.PropertyService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("api/v1")
+@Validated
 public class PropertyController {
 
     @Autowired
     private PropertyService propertyService;
 
     @PostMapping("/properties")
-    public ResponseEntity<PropertyDto> saveProperty (@RequestBody PropertyDto propertyDto) {
+    public ResponseEntity<PropertyDto> saveProperty (@RequestBody @Valid PropertyDto propertyDto) {
         propertyDto = propertyService.saveProperty(propertyDto);
         ResponseEntity<PropertyDto> responseEntity = new ResponseEntity<>(propertyDto, HttpStatus.CREATED);
         return responseEntity;
@@ -45,14 +49,14 @@ public class PropertyController {
     }
 
     @DeleteMapping("/properties/delete/{id}")
-    public  ResponseEntity<Void> deleteProperty (@PathVariable Long id) throws Exception{
+    public  ResponseEntity<Void> deleteProperty (@PathVariable Long id) throws PropertiesNotFoundException {
         propertyService.deleteProperty(id);
         ResponseEntity<Void> responseEntity = new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         return responseEntity;
     }
 
     @GetMapping("/properties/{id}")
-    public ResponseEntity<PropertyDto> getPropertyById (@PathVariable Long id) throws Exception{
+    public ResponseEntity<PropertyDto> getPropertyById (@PathVariable Long id) throws PropertiesNotFoundException {
         PropertyDto propertyDto = propertyService.getPropertyById(id);
         ResponseEntity<PropertyDto> responseEntity = new ResponseEntity<>(propertyDto, HttpStatus.OK);
         return responseEntity;
